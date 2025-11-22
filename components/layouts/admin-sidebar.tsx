@@ -5,6 +5,7 @@ import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
+import Image from "next/image"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { getUserSession, clearUserSession } from "@/lib/auth"
@@ -63,43 +64,44 @@ export function AdminSidebar() {
 
   return (
     <>
-      {/* Mobile menu button */}
+      {/* Mobile menu button - Increased padding for better touch targets on mobile */}
       <button
         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        className="fixed top-4 left-4 z-50 lg:hidden bg-[var(--admin-primary)] text-white p-2 rounded-lg shadow-lg hover:shadow-xl transition-shadow"
+        className="fixed top-3 left-3 z-50 lg:hidden bg-[var(--admin-primary)] text-white p-2.5 rounded-lg shadow-lg hover:shadow-xl transition-shadow"
         aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
       >
         {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
       </button>
 
-      {/* Sidebar */}
+      {/* Sidebar - Reduced width on mobile for better usability (w-56 on mobile, w-64 on desktop) */}
       <aside
         className={cn(
-          "fixed left-0 top-0 z-40 h-screen w-64 bg-gradient-to-b from-[var(--admin-primary-dark)] to-[var(--admin-primary)] text-white transition-transform duration-300 ease-in-out lg:translate-x-0 flex flex-col",
+          "fixed left-0 top-0 z-40 h-screen bg-gradient-to-b from-[var(--admin-primary-dark)] to-[var(--admin-primary)] text-white transition-transform duration-300 ease-in-out lg:translate-x-0 flex flex-col",
+          "w-56 sm:w-60 lg:w-64",
           isMobileMenuOpen ? "translate-x-0" : "-translate-x-full",
         )}
         aria-label="Admin navigation sidebar"
       >
-        <div className="flex h-16 items-center justify-center border-b border-white/10 flex-shrink-0">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center">
-              <span className="text-white font-bold text-sm">SI</span>
-            </div>
-            <h1 className="text-2xl font-bold">SIPINJAM</h1>
+        {/* Header with Logo - Updated with SD logo and responsive spacing */}
+        <div className="flex h-14 sm:h-16 items-center justify-center border-b border-white/10 flex-shrink-0 px-2 sm:px-4">
+          <div className="flex items-center gap-2 min-w-0">
+            <Image src="/logo-sd.png" alt="SIPINJAM Logo" width={32} height={32} className="rounded-lg flex-shrink-0" />
+            <h1 className="text-lg sm:text-2xl font-bold truncate">SIPINJAM</h1>
           </div>
         </div>
 
-        <div className="border-b border-white/10 p-4 flex-shrink-0">
+        {/* User Profile Section - Reduced padding on mobile for better spacing */}
+        <div className="border-b border-white/10 p-2 sm:p-4 flex-shrink-0">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="w-full flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-white/10 transition-colors">
-                <Avatar className="h-10 w-10 border-2 border-white/20">
-                  <AvatarFallback className="bg-orange-600 text-white font-semibold">
+              <button className="w-full flex items-center gap-2 sm:gap-3 rounded-lg px-2 sm:px-3 py-2 hover:bg-white/10 transition-colors">
+                <Avatar className="h-9 sm:h-10 w-9 sm:w-10 border-2 border-white/20 flex-shrink-0">
+                  <AvatarFallback className="bg-orange-600 text-white font-semibold text-xs sm:text-sm">
                     {getInitials(userName)}
                   </AvatarFallback>
                 </Avatar>
-                <div className="flex-1 text-left">
-                  <p className="text-sm font-semibold text-white">{userName}</p>
+                <div className="flex-1 min-w-0 text-left">
+                  <p className="text-xs sm:text-sm font-semibold text-white truncate">{userName}</p>
                   <p className="text-xs text-white/70 truncate">{userEmail}</p>
                 </div>
               </button>
@@ -115,8 +117,8 @@ export function AdminSidebar() {
           </DropdownMenu>
         </div>
 
-        {/* Navigation */}
-        <nav className="flex-1 space-y-1 px-3 py-4 overflow-y-auto" aria-label="Main navigation">
+        {/* Navigation - Optimized text size and spacing for mobile */}
+        <nav className="flex-1 space-y-1 px-2 sm:px-3 py-3 sm:py-4 overflow-y-auto" aria-label="Main navigation">
           {navigation.map((item) => {
             const isActive = pathname === item.href
             return (
@@ -125,28 +127,29 @@ export function AdminSidebar() {
                 href={item.href}
                 onClick={() => setIsMobileMenuOpen(false)}
                 className={cn(
-                  "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200",
+                  "flex items-center gap-2 sm:gap-3 rounded-lg px-2 sm:px-3 py-2 text-xs sm:text-sm font-medium transition-all duration-200",
                   isActive
                     ? "bg-white/20 text-white shadow-lg scale-105"
                     : "text-white/80 hover:bg-white/10 hover:text-white hover:scale-105",
                 )}
                 aria-current={isActive ? "page" : undefined}
               >
-                <item.icon className="h-5 w-5" aria-hidden="true" />
-                {item.name}
+                <item.icon className="h-4 sm:h-5 w-4 sm:w-5 flex-shrink-0" aria-hidden="true" />
+                <span className="truncate">{item.name}</span>
               </Link>
             )
           })}
         </nav>
 
-        <div className="border-t border-white/10 p-4 flex-shrink-0">
+        {/* Logout Button - Reduced padding on mobile */}
+        <div className="border-t border-white/10 p-2 sm:p-4 flex-shrink-0">
           <Button
             onClick={handleLogout}
             variant="ghost"
-            className="w-full justify-start text-white hover:bg-white/10 hover:text-white"
+            className="w-full justify-start text-xs sm:text-sm text-white hover:bg-white/10 hover:text-white px-2 sm:px-3"
           >
-            <LogOut className="mr-2 h-5 w-5" />
-            Keluar
+            <LogOut className="mr-2 h-4 sm:h-5 w-4 sm:w-5 flex-shrink-0" />
+            <span className="truncate">Keluar</span>
           </Button>
         </div>
       </aside>

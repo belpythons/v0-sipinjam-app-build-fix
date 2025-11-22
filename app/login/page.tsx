@@ -2,7 +2,8 @@
 
 import { useState } from "react"
 import { LoginForm } from "@/components/auth/login-form"
-import { Building2, BookCheck } from "lucide-react"
+import { BookCheck } from "lucide-react"
+import Image from "next/image"
 import type { UserRole } from "@/lib/types"
 
 export default function LoginPage() {
@@ -43,13 +44,7 @@ export default function LoginPage() {
         {/* Content Overlay */}
         <div className="relative z-10 flex flex-col items-start justify-between p-12 text-white w-full">
           <div className="flex items-center gap-3">
-            <div
-              className={`p-3 rounded-xl transition-all duration-500 ${
-                selectedRole === "user" ? "bg-blue-500" : "bg-orange-500"
-              }`}
-            >
-              <Building2 className="w-8 h-8" />
-            </div>
+            <Image src="/logo-sd.png" alt="SIPINJAM Logo" width={48} height={48} className="rounded-xl" />
             <div>
               <h1 className="text-2xl font-bold">SIPINJAM</h1>
               <p className="text-sm text-white/80">Sistem Informasi Peminjaman</p>
@@ -85,20 +80,14 @@ export default function LoginPage() {
       </div>
 
       {/* Right Side - Login Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-background">
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-4 sm:p-6 md:p-8 bg-background">
         <div className="w-full max-w-md animate-fade-in">
-          {/* Mobile Logo */}
-          <div className="lg:hidden flex items-center gap-3 mb-8">
-            <div
-              className={`p-2 rounded-lg transition-all duration-500 ${
-                selectedRole === "user" ? "bg-blue-600" : "bg-orange-600"
-              }`}
-            >
-              <Building2 className="w-6 h-6 text-white" />
-            </div>
-            <div>
-              <h1 className="text-xl font-bold">SIPINJAM</h1>
-              <p className="text-xs text-muted-foreground">Sistem Informasi Peminjaman</p>
+          {/* Mobile Logo - Updated for responsive sizing and new SD logo */}
+          <div className="lg:hidden flex items-center gap-3 mb-8 px-2 sm:px-0">
+            <Image src="/logo-sd.png" alt="SIPINJAM Logo" width={40} height={40} className="rounded-lg flex-shrink-0" />
+            <div className="min-w-0">
+              <h1 className="text-lg sm:text-xl font-bold truncate">SIPINJAM</h1>
+              <p className="text-xs text-muted-foreground truncate">Sistem Informasi Peminjaman</p>
             </div>
           </div>
 
